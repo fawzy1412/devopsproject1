@@ -34,11 +34,31 @@ pipeline {
             steps {
                 sshagent(['ansible-demo']) {
                 sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251  cd /home/ubuntu '
-                sh 'docker image tag  $JOB_NAME:v1.$BUILD_NUMBER fawzy14/$JOB_NAME:v1.$BUILD_NUMBER '
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker image tag  $JOB_NAME:v1.$BUILD_NUMBER fawzy14/$JOB_NAME:v1.$BUILD_NUMBER '
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker image tag  $JOB_NAME:v1.$BUILD_NUMBER fawzy14/$JOB_NAME:v1.latest '
                 
             }
             }
         }
+
+        stage('  Push image ') {
+
+            steps {
+                sshagent(['ansible-demo']) {
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251  cd /home/ubuntu '
+                withCredentials([string(credentialsId: 'dockerhub_passwd', variable: 'dockerhub_passwd')]) {
+                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251  docker login -u fawzy14 -p ${dockerhub_passwd}' 
+                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker image push  fawzy14/$JOB_NAME:v1.$BUILD_NUMBER '
+                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker image push  fawzy14/$JOB_NAME:v1.latest '
+                }
+                
+            }
+            }
+        }
+
+
+
+
 
 
     }
