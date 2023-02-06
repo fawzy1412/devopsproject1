@@ -19,6 +19,16 @@ pipeline {
             }
         }
 
+        stage(' Build Dockerfile at Ansible ') {
+
+            steps {
+                sshagent(['ansible-demo']) {
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker build -t $JOB_NAME:v1.$BUILD_NUMBER .  '
+                
+            }
+            }
+        }
+
 
     }
 }
