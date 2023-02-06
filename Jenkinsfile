@@ -19,11 +19,22 @@ pipeline {
             }
         }
 
-        stage(' Build Dockerfile at Ansible ') {
+        stage(' Build Docker Image at Ansible ') {
 
             steps {
                 sshagent(['ansible-demo']) {
                 sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker build -t $JOB_NAME:v1.$BUILD_NUMBER .  '
+                
+            }
+            }
+        }
+
+        stage('  Image tagging ') {
+
+            steps {
+                sshagent(['ansible-demo']) {
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251  cd /home/ubuntu '
+                sh 'docker image tag  $JOB_NAME:v1.$BUILD_NUMBER fawzy14/$JOB_NAME:v1.$BUILD_NUMBER '
                 
             }
             }
