@@ -13,4 +13,4 @@ spec:
     nodePort: 30333
   selector:
     app: devops-deploy
-  type: NodePort
+  type: LoadBalancer
