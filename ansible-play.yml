@@ -1,6 +1,10 @@
 - hosts: all
   remote_user: ubuntu
   tasks:
+  -  name: delete old deployment
+     ansible.builtin.command: kubectl delete -f /home/ubuntu/deployment.yml
+  -  name: delete old image
+     ansible.builtin.command: docker rmi -f fawzy14/pipeline-demo-1:v1.latest
   -  name: apply deployment
      ansible.builtin.command: kubectl apply -f /home/ubuntu/deployment.yml
   -  name: apply deployment
