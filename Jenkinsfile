@@ -60,7 +60,7 @@ pipeline {
 
             steps {
                 sshagent(['ansible-demo']) {
-                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 scp  /home/ubuntu/* ubuntu@172.31.31.245:/home/ubuntu'
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 scp  /home/ubuntu/* ubuntu@172.31.25.182:/home/ubuntu'
               
             }
             }
