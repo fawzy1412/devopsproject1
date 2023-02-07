@@ -55,6 +55,38 @@ pipeline {
             }
             }
         }
+        
+       stage(' Sending deployment files to Kubernetes ') {
+
+            steps {
+                sshagent(['ansible-demo']) {
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 scp  /home/ubuntu/* ubuntu@172.31.31.245:/home/ubuntu'
+              
+            }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        stage('  apply  kubendeployment ') {
+
+            steps {
+                sshagent(['ansible-demo']) {
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47   ansible-playbook /home/ubuntu/ansible-play.yml '
+                
+                }
+                
+            }
+            }
+        }
+
 
 
 
@@ -62,4 +94,4 @@ pipeline {
 
 
     }
-}
+
