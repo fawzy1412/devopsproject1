@@ -1,0 +1,7 @@
+- hosts: all
+  remote_user: ubuntu
+  tasks:
+  -  name: apply deployment
+     ansible.builtin.command: kubectl apply -f /home/ubuntu/deployment.yml
+  -  name: apply deployment
+     ansible.builtin.command: kubectl apply -f /home/ubuntu/service.yml

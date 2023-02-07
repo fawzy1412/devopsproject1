@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: devops-deploy
+  name: devops-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-deploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: devops-deploy
+    spec:
+      containers:
+      - image: fawzy14/pipeline-demo-1:v1.latest
+        name: pipeline-demo-1
+        ports:
+        - containerPort: 80

@@ -13,8 +13,8 @@ pipeline {
 
             steps {
                 sshagent(['ansible-demo']) {
-                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251'
-                sh 'scp /var/lib/jenkins/workspace/pipeline-demo-1/* ubuntu@54.164.112.251:/home/ubuntu  '
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47'
+                sh 'scp /var/lib/jenkins/workspace/pipeline-demo-1/* ubuntu@172.31.16.47:/home/ubuntu  '
             }
             }
         }
@@ -23,7 +23,7 @@ pipeline {
 
             steps {
                 sshagent(['ansible-demo']) {
-                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker build -t $JOB_NAME:v1.$BUILD_NUMBER .  '
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 docker build -t $JOB_NAME:v1.$BUILD_NUMBER .  '
                 
             }
             }
@@ -33,9 +33,9 @@ pipeline {
 
             steps {
                 sshagent(['ansible-demo']) {
-                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251  cd /home/ubuntu '
-                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker image tag  $JOB_NAME:v1.$BUILD_NUMBER fawzy14/$JOB_NAME:v1.$BUILD_NUMBER '
-                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker image tag  $JOB_NAME:v1.$BUILD_NUMBER fawzy14/$JOB_NAME:v1.latest '
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47  cd /home/ubuntu '
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 docker image tag  $JOB_NAME:v1.$BUILD_NUMBER fawzy14/$JOB_NAME:v1.$BUILD_NUMBER '
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 docker image tag  $JOB_NAME:v1.$BUILD_NUMBER fawzy14/$JOB_NAME:v1.latest '
                 
             }
             }
@@ -45,11 +45,11 @@ pipeline {
 
             steps {
                 sshagent(['ansible-demo']) {
-                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251  cd /home/ubuntu '
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47  cd /home/ubuntu '
                 withCredentials([string(credentialsId: 'dockerhub_passwd', variable: 'dockerhub_passwd')]) {
-                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251  docker login -u fawzy14 -p ${dockerhub_passwd}' 
-                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker image push  fawzy14/$JOB_NAME:v1.$BUILD_NUMBER '
-                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@54.164.112.251 docker image push  fawzy14/$JOB_NAME:v1.latest '
+                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47  docker login -u fawzy14 -p ${dockerhub_passwd}' 
+                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 docker image push  fawzy14/$JOB_NAME:v1.$BUILD_NUMBER '
+                  sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 docker image push  fawzy14/$JOB_NAME:v1.latest '
                 }
                 
             }
