@@ -23,7 +23,7 @@ pipeline {
 
             steps {
                 sshagent(['ansible-demo']) {
-                sh """ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47  docker images |grep -i pipeline|awk '{print $1":"$2}'|xargs docker rmi -f"""
+                sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47  docker images |grep -i pipeline|awk '{print $1":"$2}'|xargs docker rmi -f'
                 sh 'ssh -o StrictHostKeyChecking=no  ubuntu@172.31.16.47 docker build -t $JOB_NAME:v1.$BUILD_NUMBER .  '
                 
             }
